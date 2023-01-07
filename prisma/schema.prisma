@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model BATCH {
+  id                      String     @id @default(cuid())
+  createdAt               DateTime   @default(now())
+  updatedAt               DateTime   @updatedAt
+  batchCode               String     @unique
+  rewardCode              RewardCode[]
+
+}
+
+
+model RewardCode {
+  id                      String     @id @default(cuid())
+  createdAt               DateTime   @default(now())
+  updatedAt               DateTime   @updatedAt
+  code                    String     @unique
+  isClaimed               Boolean    @default(false)
+  batch                   BATCH     @relation(fields:[batchCodeId],references: [id])
+  batchCodeId             String
+}
+
+
+
