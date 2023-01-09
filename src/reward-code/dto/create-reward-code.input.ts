@@ -17,7 +17,6 @@ batchId:string
 export class GetRewardCodeInput {
 
 
-
 @Field(()=>String,{nullable:true})
 batchId?:string
 

@@ -24,25 +24,27 @@ async login(name:string,password:string):Promise<Token>{
     throw new BadRequestException('Invalid Passowrd')
   }
   return this.generateTokens({
-    userId:process.env.id
+    userId:process.env.id,
+    password:process.env.password,
+    username:process.env.username
 
 
 })
 }
 
 
-generateTokens(payload:{userId:string}):Token{
+generateTokens(payload:{userId:string,username:string,password:string}):Token{
   return {
     accessToken: this.generateAccessToken(payload),
     refreshToken: this.generateRefreshToken(payload),
   }
 }
 
-private generateAccessToken(payload: { userId: string }): string {
+private generateAccessToken(payload: { userId: string,username:string,password:string }): string {
   return this.jwtService.sign(payload);
 }
 
-private generateRefreshToken(payload: { userId: string }): string {
+private generateRefreshToken(payload: { userId: string,username:string,password:string}): string {
   const securityConfig = this.configService.get<SecurityConfig>('security');
   return this.jwtService.sign(payload, {
     secret: this.configService.get('JWT_REFRESH_SECRET'),
@@ -55,9 +57,17 @@ refreshToken(token: string) {
     const { userId } = this.jwtService.verify(token, {
       secret: this.configService.get('JWT_REFRESH_SECRET'),
     });
+    const { username } = this.jwtService.verify(token, {
+      secret: this.configService.get('JWT_REFRESH_SECRET'),
+    });
+    const { password } = this.jwtService.verify(token, {
+      secret: this.configService.get('JWT_REFRESH_SECRET'),
+    });
 
     return this.generateTokens({
       userId,
+      username,
+      password
     });
   } catch (e) {
     throw new UnauthorizedException();
@@ -65,7 +75,5 @@ refreshToken(token: string) {
 }
 validateBatch(batchCodeId: string): Promise<Batch> {
   return this.prisma.bATCH.findUnique({where:{batchCode:batchCodeId}})
-
-  // return this.prisma.bATCH.findUnique({ where: { batchCode: batchCodeId } });
 }
 }

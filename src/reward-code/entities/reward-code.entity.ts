@@ -2,9 +2,6 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { RewardModel } from '../models/reward.models';
 
 
-
-
-
 @ObjectType()
 export class RewardCode {
   @Field(() => [String], { description: 'Example field (placeholder)' })

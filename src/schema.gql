@@ -47,8 +47,13 @@ input GetRewardCodeInput {
 }
 
 type Mutation {
-  GenerateRewardCode(data: String!): RewardCode!
+  GenerateRewardCode(data: GenerateRewardCodeInput!): RewardCode!
   login(data: LoginInput!): Token!
+}
+
+input GenerateRewardCodeInput {
+  NumberOfrewardCode: Int!
+  batchId: String!
 }
 
 input LoginInput {

@@ -5,32 +5,39 @@ import { ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { JwtDto } from './dto/jwt.dto';
 import { Batch } from 'src/batch/models/batch.models';
+import { Auth } from './models/auth.models';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly authService: AuthService,
     readonly configService: ConfigService
-  ) {
+
+  )
+   {
+    var cookieExtractor = function(req) {
+      var token = null;
+      if (req && req.cookies)
+      {
+          token = req.cookies['jwt'];
+      }
+      return token;
+  };
+    
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: configService.get('JWT_ACCESS_SECRET'),
-      passReqToCallback:true
     });
-  }
-   async validate(req: Request){
     
-    console.log("hhhhiii",req)
-    // const token  = req.headers['authorization'].substring(7, req.headers['authorization'].length);
-    // console.log({token})
-
-    // const resp = await this.authService.verify(token);
-    // console.log(resp)
-
-    // if (!batch) {
-      // throw new UnauthorizedException();
-      throw new Error("Errrrr")
-    // }
-    // return batch;
   }
+  // getUserFromToken(token: string): Promise<User> {
+  //   const id = this.jwtService.decode(token)['userId'];
+  //   return this.prisma.user.findUnique({ where: { id } });
+  // }
+  
+  // async validate(payload: JwtDto){
+  //   const user = await this.authService.validateUser(payload.userId);
+    
+  //   // return user;
+  // }
 }

@@ -54,27 +54,15 @@ export class RewardCodeService {
         }
         }catch (e){
         }
-
         return codes
-
-      
-
       }
-
       async getRewardCodes(payload:GetRewardCodeInput){
-     
         if(payload.batchId){
-          return await this.prisma.rewardCode.findMany({where:{batchCodeId:payload.batchId}})
-
+          return await this.prisma.rewardCode.findMany({
+            where:{batchCodeId:payload.batchId}
+          })
         }else{
           return await this.prisma.rewardCode.findMany()
-
         }
-
-      
-
       }
-
-
-    
     }
