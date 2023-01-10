@@ -24,7 +24,7 @@ export class RewardCodeResolver {
     ) {}
     
     
-    @UseGuards(GqlAuthGuard)
+    // @UseGuards(GqlAuthGuard)
     @Mutation(()=>RewardCode)
     async GenerateRewardCode(
       @Context() 
@@ -61,8 +61,6 @@ export class RewardCodeResolver {
       try {
       const token= context.req.headers.authorization;
       const secret = process.env.JWT_ACCESS_SECRET
-      // const [header, payload, signature] = token.split('.');
-      // const decodedHeader = Buffer.from(header, 'base64').toString();
       const decoded = jwt.verify(token,secret);
       if (decoded.username===process.env.username){
         const codes =  await this.rewardCodeService.getRewardCodes(data)
