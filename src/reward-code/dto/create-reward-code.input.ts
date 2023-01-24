@@ -9,7 +9,16 @@ NumberOfrewardCode:number
 
 @Field(()=>String)
 batchId:string
+
+
+@Field(()=>String)
+name:string
+
+
+
+
 }
+
 
 
 
@@ -19,5 +28,9 @@ export class GetRewardCodeInput {
 
 @Field(()=>String,{nullable:true})
 batchId?:string
+
+
+@Field(()=>String)
+name:string
 
 }

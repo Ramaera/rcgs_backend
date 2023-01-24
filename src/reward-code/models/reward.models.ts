@@ -11,7 +11,7 @@ export class RewardModel {
   @Field(() => Date)
   updatedAt!: Date;
 
-  @Field(()=>String)
+  @Field(()=>String,{nullable:true})
   code:String
 
   @Field(()=>String,{nullable:true})

@@ -2,12 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type RewardModel {
+type Batch {
   id: String!
+  batchCode: String!
   createdAt: DateTime!
   updatedAt: DateTime!
-  code: String!
-  batchId: String
 }
 
 """
@@ -15,13 +14,36 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Product {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  name: String
+  batchCode: String
+}
+
+type RewardModel {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  code: String
+  batchId: String
+}
+
 type RewardCode {
-  """Example field (placeholder)"""
-  codes: [String!]!
+  createdAt: DateTime
+  updatedAt: DateTime
+  batch: [Batch!]
+  name: Product
+  all_codes: [RewardModel!]
+  codes: [String!]
 }
 
 type RewardCodes {
-  codes: [RewardModel!]!
+  createdAt: DateTime
+  updatedAt: DateTime
+  batch: [Batch!]
+  codes: [RewardModel!]
 }
 
 type Token {
@@ -40,23 +62,36 @@ scalar JWT
 type Query {
   GetRewardCode1(data: GetRewardCodeInput!): RewardCodes!
   sayHello: String!
+  products: [Product!]!
+  getBatch(data: GetBatchsearchInput!): [Product!]!
 }
 
 input GetRewardCodeInput {
   batchId: String
+  name: String!
+}
+
+input GetBatchsearchInput {
+  name: String!
 }
 
 type Mutation {
   GenerateRewardCode(data: GenerateRewardCodeInput!): RewardCode!
   login(data: LoginInput!): Token!
+  createProduct(data: CreateProductInput!): Product!
 }
 
 input GenerateRewardCodeInput {
   NumberOfrewardCode: Int!
   batchId: String!
+  name: String!
 }
 
 input LoginInput {
   username: String!
   password: String!
+}
+
+input CreateProductInput {
+  name: String!
 }

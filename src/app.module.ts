@@ -12,6 +12,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GqlConfigService } from './gql-config.service';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
+import { ProductsModule } from './products/products.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
@@ -28,7 +29,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     RewardCodeModule,
     AuthModule, 
-    BatchModule
+    BatchModule, ProductsModule
   ],
   controllers: [AppController],
   providers: [AppService],
