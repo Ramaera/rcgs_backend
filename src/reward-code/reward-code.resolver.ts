@@ -39,6 +39,7 @@ export class RewardCodeResolver {
       }
   }
 }
+
     @Query(()=>RewardCodes)
     async GetRewardCode1(
       @Context() 

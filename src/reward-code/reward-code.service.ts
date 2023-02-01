@@ -21,7 +21,6 @@ export class RewardCodeService {
   async GenerateRewardCode(payload: GenerateRewardCodeInput) {
   
     const codes = [];
-    console.log("a")
     try{
     var productExist = await this.prisma.product.findUnique({
       where: { name: payload.name },

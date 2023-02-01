@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 
 @Injectable()
 export class GqlAuthGuard 
-// extends AuthGuard('jwt')
  {
 
   async verifyCode(
@@ -29,25 +28,12 @@ export class GqlAuthGuard
       
     }
 
-    // console.log(decoded.name);  // John Doe
-    // console.log(decoded.sub);  // 1234567890
+
     }
     catch(error){
       throw new Error(error)
     }
-    // const codes =  await this.rewardCodeService.getRewardCodes(data)
-    // return {codes}
+
   }
 }
   
-  // getRequest(context: ExecutionContext) {
-  //   const ctx = GqlExecutionContext.create(context);
-
-
-
-  //   const out=ctx.getContext().req
-  //   console.log(out)
-  //   return ctx.getContext().req;
-
-  // }
-// }
