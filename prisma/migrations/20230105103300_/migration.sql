@@ -28,3 +28,7 @@ CREATE UNIQUE INDEX "RewardCode_code_key" ON "RewardCode"("code");
 
 -- AddForeignKey
 ALTER TABLE "RewardCode" ADD CONSTRAINT "RewardCode_batchCodeId_fkey" FOREIGN KEY ("batchCodeId") REFERENCES "BATCH"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+
+ALTER SEQUENCE "BATCH_batchCode_seq" RESTART WITH 1001;
+

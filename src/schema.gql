@@ -14,14 +14,6 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Product {
-  id: String
-  createdAt: DateTime
-  updatedAt: DateTime
-  name: String
-  batchCode: String
-}
-
 type RewardModel {
   id: String!
   createdAt: DateTime!
@@ -33,17 +25,8 @@ type RewardModel {
 type RewardCode {
   createdAt: DateTime
   updatedAt: DateTime
-  batch: [Batch!]
-  name: Product
-  all_codes: [RewardModel!]
-  codes: [String!]
-}
-
-type RewardCodes {
-  createdAt: DateTime
-  updatedAt: DateTime
-  batch: [Batch!]
-  codes: [RewardModel!]
+  code: String
+  batchCodeId: String
 }
 
 type Token {
@@ -59,16 +42,18 @@ A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction.
 """
 scalar JWT
 
+type Product {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  name: String
+  batchCode: String
+}
+
 type Query {
-  GetRewardCode1(data: GetRewardCodeInput!): RewardCodes!
   sayHello: String!
   products: [Product!]!
   getBatch(data: GetBatchsearchInput!): [Product!]!
-}
-
-input GetRewardCodeInput {
-  batchId: String
-  name: String!
 }
 
 input GetBatchsearchInput {
@@ -82,9 +67,7 @@ type Mutation {
 }
 
 input GenerateRewardCodeInput {
-  NumberOfrewardCode: Int!
-  batchId: String!
-  name: String!
+  NumberOfSheetsRequired: Int!
 }
 
 input LoginInput {

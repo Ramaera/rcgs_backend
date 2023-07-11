@@ -10,42 +10,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 // A batch can have multiple rewardCodes
 // A rewardCode can have only one batch.
 // A product can have multiple batches
 
-
 model BATCH {
-  id                      String     @id @default(cuid())
-  createdAt               DateTime   @default(now())
-  updatedAt               DateTime   @updatedAt
-  batchCode               String    @unique
-  rewardCode              RewardCode[]
-  product                 Product @relation(fields:[productId],references: [id])
-  productId               String
-
+  batchCode  Int          @id @default(autoincrement())
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  rewardCode RewardCode[]
+  product    Product?     @relation(fields: [productId], references: [id])
+  productId  String?
 }
 
-
 model RewardCode {
-  id                      String     @id @default(cuid())
-  createdAt               DateTime   @default(now())
-  updatedAt               DateTime   @updatedAt
-  code                    String     @unique
-  isClaimed               Boolean    @default(false)
-  batch                   BATCH     @relation(fields:[batchCodeId],references: [id])
-  batchCodeId             String
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  code        String   @unique
+  isClaimed   Boolean  @default(false)
+  batch       BATCH    @relation(fields: [batchCodeId], references: [batchCode])
+  batchCodeId Int
 }
 
 model Product {
-  id                      String     @id @default(cuid())
-  createdAt               DateTime   @default(now())
-  updatedAt               DateTime   @updatedAt
-  name                    String     @unique
-  batches                 BATCH[]    
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @unique
+  batches   BATCH[]
 }
-
-
-
-
