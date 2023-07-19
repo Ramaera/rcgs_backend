@@ -14,11 +14,23 @@ datasource db {
 // A rewardCode can have only one batch.
 // A product can have multiple batches
 
+model USER {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  email       String   @unique
+  password    String
+  name        String?
+  batch       BATCH?   @relation(fields: [batchCodeId], references: [batchCode])
+  batchCodeId Int
+}
+
 model BATCH {
   batchCode  Int          @id @default(autoincrement())
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
   rewardCode RewardCode[]
+  user       USER[]
   product    Product?     @relation(fields: [productId], references: [id])
   productId  String?
 }
