@@ -15,14 +15,14 @@ datasource db {
 // A product can have multiple batches
 
 model USER {
-  id          String   @id @default(cuid())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  email       String   @unique
-  password    String
-  name        String?
-  batch       BATCH?   @relation(fields: [batchCodeId], references: [batchCode])
-  batchCodeId Int
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email     String   @unique
+  password  String
+  name      String?
+  // batch       BATCH?   @relation(fields: [batchCodeId], references: [batchCode])
+  // batchCodeId Int
 }
 
 model BATCH {
@@ -30,7 +30,7 @@ model BATCH {
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
   rewardCode RewardCode[]
-  user       USER[]
+  // user       USER[]
   product    Product?     @relation(fields: [productId], references: [id])
   productId  String?
 }

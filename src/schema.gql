@@ -102,17 +102,15 @@ input GenerateRewardCodeInput {
 input SignupInput {
   email: String!
   password: String!
-  name: String!
-  mobile: String
 }
 
 input LoginInput {
-  pw_id: String!
+  email: String!
   password: String!
 }
 
 input PasswordRequestInput {
-  pw_id: String!
+  email: String!
 }
 
 input CreateProductInput {
