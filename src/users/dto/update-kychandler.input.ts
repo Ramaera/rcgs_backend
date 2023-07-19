@@ -1,7 +1,4 @@
 import { InputType, Field, registerEnumType } from '@nestjs/graphql';
-import { KYC } from '@prisma/client';
-
-
 
 // ***************************************************************
 // *******************Update User Details Input*******************
@@ -14,6 +11,4 @@ export class UpdateKycHandlerInput {
 
   @Field({ nullable: true })
   handlerId?: string;
-
 }
-
