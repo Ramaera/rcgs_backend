@@ -42,6 +42,27 @@ A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction.
 """
 scalar JWT
 
+type Auth {
+  """JWT access token"""
+  accessToken: JWT!
+
+  """JWT refresh token"""
+  refreshToken: JWT!
+  user: User!
+}
+
+type User {
+  id: ID!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  email: String!
+  name: String
+}
+
 type Product {
   id: String
   createdAt: DateTime
@@ -54,6 +75,9 @@ type Query {
   sayHello: String!
   products: [Product!]!
   getBatch(data: GetBatchsearchInput!): [Product!]!
+  me: User!
+  getAllUser: [User!]!
+  DeleteUser: User!
 }
 
 input GetBatchsearchInput {
@@ -62,19 +86,44 @@ input GetBatchsearchInput {
 
 type Mutation {
   GenerateRewardCode(data: GenerateRewardCodeInput!): RewardCode!
-  login(data: LoginInput!): Token!
+  signup(data: SignupInput!): Auth!
+  login(data: LoginInput!): Auth!
+  passwordresetRequest(data: PasswordRequestInput!): Auth!
+  refreshToken(token: JWT!): Token!
   createProduct(data: CreateProductInput!): Product!
+  updateUser(data: UpdateUserInput!): User!
+  changePassword(data: ChangePasswordInput!): User!
 }
 
 input GenerateRewardCodeInput {
   NumberOfSheetsRequired: Int!
 }
 
-input LoginInput {
-  username: String!
+input SignupInput {
+  email: String!
   password: String!
+  name: String!
+  mobile: String
+}
+
+input LoginInput {
+  pw_id: String!
+  password: String!
+}
+
+input PasswordRequestInput {
+  pw_id: String!
 }
 
 input CreateProductInput {
   name: String!
+}
+
+input UpdateUserInput {
+  name: String
+}
+
+input ChangePasswordInput {
+  oldpassword: String!
+  newPassword: String!
 }

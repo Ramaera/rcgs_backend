@@ -33,17 +33,17 @@ export class AuthResolver {
   @Mutation(() => Auth)
   async login(
     @Args('data')
-    { pw_id, password }: LoginInput,
+    { email, password }: LoginInput,
   ) {
-    return await this.auth.login(pw_id.toUpperCase(), password);
+    return await this.auth.login(email, password);
   }
 
   @Mutation(() => Auth)
   async passwordresetRequest(
     @Args('data')
-    { pw_id }: PasswordRequestInput,
+    { email }: PasswordRequestInput,
   ) {
-    const { accessToken } = await this.auth.passwordresetRequest(pw_id);
+    const { accessToken } = await this.auth.passwordresetRequest(email);
     return {
       accessToken,
     };
