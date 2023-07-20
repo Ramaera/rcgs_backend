@@ -31,9 +31,9 @@ export class RewardCodeResolver {
     }
   }
 
-  // @Query(() => [RewardCode])
-  // async getAllcode() {
-  //   const allrewardcode = await this.rewardCodeService.getAllCode();
-  //   return allrewardcode;
-  // }
+  @Query(() => [RewardCode])
+  async getAllcode() {
+    const allrewardcode = await this.rewardCodeService.getAllCode();
+    return allrewardcode;
+  }
 }

@@ -95,38 +95,39 @@ export class RewardCodeService {
     return batchCode;
   }
 
-  // async getAllCode() {
-  //   const allrewardcode = await this.prisma.rewardCode.findMany();
+  async getAllCode() {
+    const allrewardcode = await this.prisma.rewardCode.findMany();
 
-  //   const csvData = parse(allrewardcode);
-  //   const fileName = 'output.csv';
+    // const csvData = parse(allrewardcode);
+    // const fileName = 'output.csv';
 
-  //   downloadCsv(csvData, fileName);
+    // downloadCsv(csvData, fileName);
 
-  //   const filePath = 'output.csv';
+    // const filePath = 'output.csv';
 
-  //   // Read the file from the file system
-  //   const fileData = fs.readFileSync(filePath);
-  //   console.log('---------', typeof fileData);
-  //   try {
-  //     const response = await axios
-  //       .post('http://127.0.0.1:5000/post', fileData, {
-  //         headers: {
-  //           'Content-Type': 'text/csv', // Set the appropriate content type for your file
-  //         },
-  //       })
-  //       .then((response) => {
-  //         console.log('POST request successful:', response.data);
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error sending POST request:', error);
-  //       });
-  //     console.log(response);
+    // // Read the file from the file system
+    // const fileData = fs.readFileSync(filePath);
+    // console.log('---------', typeof fileData);
+    // try {
+    //   const response = await axios
+    //     .post('http://127.0.0.1:5000/post', fileData, {
+    //       headers: {
+    //         'Content-Type': 'text/csv', // Set the appropriate content type for your file
+    //       },
+    //     })
+    //     .then((response) => {
+    //       console.log('POST request successful:', response.data);
+    //     })
+    //     .catch((error) => {
+    //       console.error('Error sending POST request:', error);
+    //     });
+    //   console.log(response);
 
-  //     return allrewardcode;
-  //   } catch (error) {
-  //     console.log(error);
-  //     return { message: 'Failed to upload file' };
-  //   }
-  // }
+    //   return allrewardcode;
+    // } catch (error) {
+    //   console.log(error);
+    //   return { message: 'Failed to upload file' };
+    // }
+    return allrewardcode;
+  }
 }
