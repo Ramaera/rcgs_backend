@@ -15,6 +15,7 @@ import { AuthModule } from './auth/auth.module';
 import { ProductsModule } from './products/products.module';
 
 import { UsersModule } from './users/users.module';
+import { MediaModule } from './media/media.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
@@ -34,6 +35,7 @@ import { UsersModule } from './users/users.module';
     BatchModule,
     ProductsModule,
     UsersModule,
+    MediaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

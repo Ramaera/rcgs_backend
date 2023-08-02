@@ -14,16 +14,13 @@ export class RewardCodeResolver {
     private prisma: PrismaService,
   ) {}
 
-  @Mutation(() => RewardCode)
+  @Mutation(() => [RewardCode])
   async GenerateRewardCode(
     @Args('data')
     data: GenerateRewardCodeInput,
   ) {
     try {
-      const codes = await this.rewardCodeService.GenerateRewardCode(data);
-      return {
-        codes,
-      };
+      return await this.rewardCodeService.GenerateRewardCode(data);
     } catch (err) {
       if (err instanceof jwt.JsonWebTokenError) {
         throw new Error('Credentials are not Valid or Unauthorized Access');

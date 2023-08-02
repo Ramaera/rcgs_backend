@@ -5,11 +5,12 @@ import { UserEntity } from '../common/decorators/user.decorator';
 import { GqlAuthGuard } from 'src/auth/gql-auth.guard';
 import { UsersService } from './users.service';
 import { User } from './models/user.model';
-import { ChangePasswordInput } from './dto/change-password.input';
+// import { ChangePasswordInput } from './dto/change-password.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { Link } from './models/user.link';
 
 @Resolver(() => User)
-@UseGuards(GqlAuthGuard)
+// @UseGuards(GqlAuthGuard)
 export class UsersResolver {
   constructor(
     private usersService: UsersService,
@@ -29,6 +30,12 @@ export class UsersResolver {
     const _user = await this.usersService.getAllUser();
 
     return _user;
+  }
+
+  @Query(() => Link)
+  async DownloadCodes() {
+    const codesDownload = await this.usersService.codesDownload();
+    return codesDownload;
   }
 
   // *********************************Updated  User details********************
@@ -54,12 +61,12 @@ export class UsersResolver {
 
   // *********************************Mutation command  about the Changed Password   ********************
 
-  @Mutation(() => User)
-  async changePassword(
-    @UserEntity() user: User,
-    @Args('data')
-    data: ChangePasswordInput,
-  ) {
-    return this.usersService.changePassword(user, data);
-  }
+  // @Mutation(() => User)
+  // async changePassword(
+  //   @UserEntity() user: User,
+  //   @Args('data')
+  //   data: ChangePasswordInput,
+  // ) {
+  //   return this.usersService.changePassword(user, data);
+  // }
 }

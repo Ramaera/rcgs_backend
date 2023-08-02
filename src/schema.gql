@@ -71,12 +71,25 @@ type Product {
   batchCode: String
 }
 
+type Link {
+  id: ID!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  link: String!
+}
+
 type Query {
+  getAllcode: [RewardCode!]!
   sayHello: String!
   products: [Product!]!
   getBatch(data: GetBatchsearchInput!): [Product!]!
   me: User!
   getAllUser: [User!]!
+  DownloadCodes: Link!
   DeleteUser: User!
 }
 
@@ -85,14 +98,13 @@ input GetBatchsearchInput {
 }
 
 type Mutation {
-  GenerateRewardCode(data: GenerateRewardCodeInput!): RewardCode!
+  GenerateRewardCode(data: GenerateRewardCodeInput!): [RewardCode!]!
   signup(data: SignupInput!): Auth!
   login(data: LoginInput!): Auth!
   passwordresetRequest(data: PasswordRequestInput!): Auth!
   refreshToken(token: JWT!): Token!
   createProduct(data: CreateProductInput!): Product!
   updateUser(data: UpdateUserInput!): User!
-  changePassword(data: ChangePasswordInput!): User!
 }
 
 input GenerateRewardCodeInput {
@@ -119,9 +131,4 @@ input CreateProductInput {
 
 input UpdateUserInput {
   name: String
-}
-
-input ChangePasswordInput {
-  oldpassword: String!
-  newPassword: String!
 }

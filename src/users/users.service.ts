@@ -1,8 +1,9 @@
 import { PrismaService } from 'nestjs-prisma';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PasswordService } from 'src/auth/password.service';
-import { ChangePasswordInput } from './dto/change-password.input';
+// import { ChangePasswordInput } from './dto/change-password.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import * as fs from 'fs';
 
 @Injectable()
 export class UsersService {
@@ -24,6 +25,18 @@ export class UsersService {
     return updated_user;
   }
 
+  async codesDownload() {
+    // Convert the ZIP file to a Base64-encoded data URL
+    const zipFilePath = '/Users/apple/Documents/RCGS/rcgs_backend/Files.zip';
+    const zipFileData = fs.readFileSync(zipFilePath);
+    const zipFileBase64 = Buffer.from(zipFileData).toString('base64');
+    const zipFileURL = `data:application/zip;base64,${zipFileBase64}`;
+    const check = fs.createReadStream(zipFilePath);
+    // fs.unlinkSync(zipFilePath);
+    console.log('--', zipFileURL, '===', check);
+    return { url: zipFileURL };
+  }
+
   // *****************************************************
   async getUser(userId: string) {
     const user = await this.prisma.uSER.findFirst({
@@ -42,31 +55,31 @@ export class UsersService {
 
   // #################################### Change Password ###########################################
 
-  async changePassword(user, changePasswordValue: ChangePasswordInput) {
-    const hashedPassword = await this.passwordService.hashPassword(
-      changePasswordValue.newPassword,
-    );
+  // async changePassword(user, changePasswordValue: ChangePasswordInput) {
+  //   const hashedPassword = await this.passwordService.hashPassword(
+  //     changePasswordValue.newPassword,
+  //   );
 
-    const passwordValid = await this.passwordService.validatePassword(
-      changePasswordValue.oldpassword,
-      user.password,
-    );
+  //   const passwordValid = await this.passwordService.validatePassword(
+  //     changePasswordValue.oldpassword,
+  //     user.password,
+  //   );
 
-    if (!passwordValid) {
-      throw new BadRequestException('Invalid password');
-    }
-    try {
-      const updated_password = this.prisma.uSER.update({
-        data: {
-          password: hashedPassword,
-        },
-        where: {
-          id: user.id,
-        },
-      });
-      return updated_password;
-    } catch (e) {}
-  }
+  //   if (!passwordValid) {
+  //     throw new BadRequestException('Invalid password');
+  //   }
+  //   try {
+  //     const updated_password = this.prisma.uSER.update({
+  //       data: {
+  //         password: hashedPassword,
+  //       },
+  //       where: {
+  //         id: user.id,
+  //       },
+  //     });
+  //     return updated_password;
+  //   } catch (e) {}
+  // }
 
   // **************************
   async DeleteUser(user) {

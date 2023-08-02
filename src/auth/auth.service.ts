@@ -35,7 +35,6 @@ export class AuthService {
           password: hashedPassword,
         },
       });
-
       return this.generateTokens({
         userId: user.id,
       });
