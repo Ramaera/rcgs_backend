@@ -14,8 +14,14 @@ export class RewardCode {
   @Field(() => String, { nullable: true })
   code?: string;
 
-  @Field(() => String, { nullable: true })
-  batchCodeId?: string;
+  @Field(() => Int, { nullable: true })
+  batchCodeId?: number;
+
+  // @Field(() => String, { nullable: true })
+  // minBatchCode?: string;
+
+  // @Field(() => String, { nullable: true })
+  // maxBatchCode?: string;
 
   // @Field(() => Product, { nullable: true })
   // name: Product;

@@ -16,7 +16,8 @@ import { type } from 'os';
 const csv = require('csv-parser');
 const zip = require('jszip');
 
-async function testpost() {
+const testpost = () => {
+  console.log('checktest');
   const fileNames = [];
   const data = [];
 
@@ -28,12 +29,12 @@ async function testpost() {
     })
     .on('end', () => {
       // Process the data and create separate CSV files
-      const uniqueValues = new Set(data.map((row) => row['Column_Name']));
-
+      const uniqueValues = new Set(data.map((row) => row['batchCodeId']));
       for (const value of uniqueValues) {
-        const rows = data.filter((row) => row['Column_Name'] === value);
-        console.log('----', rows);
+        const rows = data.filter((row) => row['batchCodeId'] === value);
+
         const fileName = `${value}.csv`;
+        console.log('----', fileName);
         fs.writeFileSync(fileName, rows.map((row) => row['code']).join('\n'));
         fileNames.push(fileName);
       }
@@ -55,13 +56,10 @@ async function testpost() {
           console.log('Complete');
         });
     });
-}
+};
 
 // import ShortUniqueId from 'shortid';
 var randomstring = require('randomstring');
-function downloadCsv(csvData, fileName) {
-  fs.writeFileSync(fileName, csvData, 'utf8');
-}
 
 const convertJSONtoCSV = (jsonData, csvFilename) => {
   console.log('check');
@@ -84,55 +82,7 @@ const convertJSONtoCSV = (jsonData, csvFilename) => {
 export class RewardCodeService {
   constructor(private readonly prisma: PrismaService) {}
 
-  // ****************************************************************************************
-  // ****************************************************************************************
-  // ******************************Generate Reward Code and Create Batch**********************
-  // *****************************************************************************************
-
-  // async GenerateRewardCode(payload: GenerateRewardCodeInput) {
-  //   const codes = [];
-  //   try {
-  //     // var productExist = await this.prisma.product.findUnique({
-  //     //   where: { name: payload.name },
-  //     // });
-  //     // var updatedBatchCode = `${productExist.name}/${payload.batchId}`;
-  //     // var batch = await this.prisma.bATCH.findUnique({
-  //     //   where: { batchCode: updatedBatchCode },
-  //     // });
-
-  //     // if (!batch) {
-  //     //   batch = await this.prisma.bATCH.create({
-  //     //     data: {
-  //     //       batchCode: updatedBatchCode,
-  //     //       product: { connect: { id: productExist.id } },
-  //     //     },
-  //     //   });
-  //     // }
-  //     for (let i = 0; i < payload.NumberOfrewardCode; i++) {
-  //       const reward_code = ShortUniqueId.generate().toUpperCase();
-  //       codes.push(reward_code);
-  //       await this.prisma.rewardCode.create({
-  //         data: {
-  //           code: reward_code,
-  //           batchCodeId: batch.id,
-  //         },
-  //       });
-  //     }
-  //     return codes;
-  //   } catch (error) {
-  //     console.log(error);
-  //     if (error instanceof TypeError) {
-  //       if (
-  //         error.message === "Cannot read properties of null (reading 'name')"
-  //       ) {
-  //         console.log('Product does not exist ');
-  //         throw new Error(`product dose not exist`);
-  //       } else {
-  //         throw new Error('check');
-  //       }
-  //     }
-  //   }
-  // }
+  //  Genrate reward Code
 
   async GenerateRewardCode(payload: GenerateRewardCodeInput) {
     let codes = [];
@@ -158,44 +108,23 @@ export class RewardCodeService {
     }
 
     convertJSONtoCSV(codes, 'data.csv');
-    testpost();
+    setTimeout(testpost, 5000);
+    // testp
+    // var minBatchCode = Math.min.apply(
+    //   null,
+    //   codes.map((v) => v.batchCodeId),
+    // );
+    // var maxBatchCode = Math.min.apply(
+    //   null,
+    //   codes.map((v) => v.batchCodeId),
+    // );
 
+    // codes.push(Math.min());
     return codes;
   }
 
   async getAllCode() {
     const allrewardcode = await this.prisma.rewardCode.findMany();
-
-    // const csvData = parse(allrewardcode);
-    // const fileName = 'output.csv';
-
-    // downloadCsv(csvData, fileName);
-
-    // const filePath = 'output.csv';
-
-    // // Read the file from the file system
-    // const fileData = fs.readFileSync(filePath);
-    // console.log('---------', typeof fileData);
-    // try {
-    //   const response = await axios
-    //     .post('http://127.0.0.1:5000/post', fileData, {
-    //       headers: {
-    //         'Content-Type': 'text/csv', // Set the appropriate content type for your file
-    //       },
-    //     })
-    //     .then((response) => {
-    //       console.log('POST request successful:', response.data);
-    //     })
-    //     .catch((error) => {
-    //       console.error('Error sending POST request:', error);
-    //     });
-    //   console.log(response);
-
-    //   return allrewardcode;
-    // } catch (error) {
-    //   console.log(error);
-    //   return { message: 'Failed to upload file' };
-    // }
     return allrewardcode;
   }
 }
