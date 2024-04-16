@@ -6,8 +6,10 @@ import { PrismaService } from 'nestjs-prisma';
 export class BatchService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getBatchDetails() {
+  async getBatchDetails({ take, skip }) {
     const batchDetails = await this.prisma.bATCH.findMany({
+      take,
+      skip,
       orderBy: {
         batchCode: 'asc',
       },

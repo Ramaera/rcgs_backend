@@ -89,7 +89,7 @@ type Link {
 
 type Query {
   getAllcode: [RewardCode!]!
-  getBatchDetails: [BatchEntity!]!
+  getBatchDetails(take: Int! = 100, skip: Int! = 0): [BatchEntity!]!
   products: [Product!]!
   getRewardCode(data: GetRewardsearchInput!): [Product!]!
   me: User!

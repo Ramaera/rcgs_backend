@@ -12,8 +12,11 @@ export class BatchResolver {
   constructor(private readonly batchService: BatchService) {}
 
   @Query(() => [BatchEntity])
-  async getBatchDetails() {
-    const data = await this.batchService.getBatchDetails();
+  async getBatchDetails(
+    @Args({ name: 'take', type: () => Int, defaultValue: 100 }) take: number,
+    @Args({ name: 'skip', type: () => Int, defaultValue: 0 }) skip: number,
+  ) {
+    const data = await this.batchService.getBatchDetails({ take, skip });
 
     return data;
   }
