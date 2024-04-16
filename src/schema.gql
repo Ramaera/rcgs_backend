@@ -29,6 +29,11 @@ type RewardCode {
   batchCodeId: Int
 }
 
+type BatchEntity {
+  """Example field (placeholder)"""
+  batchCode: String!
+}
+
 type Token {
   """JWT access token"""
   accessToken: JWT!
@@ -84,16 +89,16 @@ type Link {
 
 type Query {
   getAllcode: [RewardCode!]!
-  sayHello: String!
+  getBatchDetails: [BatchEntity!]!
   products: [Product!]!
-  getBatch(data: GetBatchsearchInput!): [Product!]!
+  getRewardCode(data: GetRewardsearchInput!): [Product!]!
   me: User!
   getAllUser: [User!]!
   DownloadCodes: Link!
   DeleteUser: User!
 }
 
-input GetBatchsearchInput {
+input GetRewardsearchInput {
   name: String!
 }
 

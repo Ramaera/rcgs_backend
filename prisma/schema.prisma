@@ -21,8 +21,6 @@ model USER {
   email     String   @unique
   password  String
   name      String?
-  // batch       BATCH?   @relation(fields: [batchCodeId], references: [batchCode])
-  // batchCodeId Int
 }
 
 model BATCH {
@@ -30,9 +28,6 @@ model BATCH {
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
   rewardCode RewardCode[]
-  // user       USER[]
-  product    Product?     @relation(fields: [productId], references: [id])
-  productId  String?
 }
 
 model RewardCode {
@@ -41,14 +36,16 @@ model RewardCode {
   updatedAt   DateTime @updatedAt
   code        String   @unique
   isClaimed   Boolean  @default(false)
+  product     Product? @relation(fields: [productId], references: [id])
+  productId   String?
   batch       BATCH    @relation(fields: [batchCodeId], references: [batchCode])
   batchCodeId Int
 }
 
 model Product {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String   @unique
-  batches   BATCH[]
+  id         String       @id @default(cuid())
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  name       String       @unique
+  RewardCode RewardCode[]
 }

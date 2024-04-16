@@ -1,4 +1,4 @@
-import { Injectable, UseGuards } from '@nestjs/common';
+import { Injectable, NotFoundException, UseGuards } from '@nestjs/common';
 import { isInstance } from 'class-validator';
 // import { CreateRewardCodeInput } from './dto/create-reward-code.input';
 import { PrismaService } from 'nestjs-prisma';
@@ -126,5 +126,21 @@ export class RewardCodeService {
   async getAllCode() {
     const allrewardcode = await this.prisma.rewardCode.findMany();
     return allrewardcode;
+  }
+
+  async getCodeDetails(rewardCode: string) {
+    const codeData = await this.prisma.rewardCode.findUnique({
+      where: {
+        code: rewardCode,
+      },
+      include: {
+        batch: true,
+        product: true,
+      },
+    });
+
+    if (!codeData) {
+      throw new NotFoundException(`Reward Code ${rewardCode} is Not Correct`);
+    }
   }
 }
