@@ -95,7 +95,10 @@ export class RewardCodeService {
       batchCode.push(batchCodeCreate.batchCode);
 
       for (let i = 0; i < 196; i++) {
-        const reward_code = randomstring.generate(6);
+        const reward_code = randomstring.generate({
+          length: 6,
+          charset: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
+        });
 
         const code = await this.prisma.rewardCode.create({
           data: {
@@ -126,6 +129,35 @@ export class RewardCodeService {
   async getAllCode() {
     const allrewardcode = await this.prisma.rewardCode.findMany();
     return allrewardcode;
+  }
+
+  async checkBatchHasProduct(batchCode) {
+    const batch = await this.prisma.bATCH.findUnique({
+      where: {
+        batchCode: batchCode,
+      },
+      include: {
+        rewardCode: {
+          include: {
+            product: true,
+          },
+        },
+      },
+    });
+    if (!batch) {
+      // Batch not found
+      throw new NotFoundException();
+    }
+
+    // Extract products from RewardCodes
+    const products = batch.rewardCode.find((rc) => rc.product !== null);
+
+    if (!products) {
+      // Batch has no associated products
+      return { message: false };
+    }
+
+    return { message: true };
   }
 
   async getCodeDetails(rewardCode: string) {

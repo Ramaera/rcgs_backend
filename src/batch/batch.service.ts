@@ -16,4 +16,25 @@ export class BatchService {
     });
     return batchDetails;
   }
+
+  async applyBatchCodeonProduct(batchCode, productId) {
+    const allRewardCodes = await this.prisma.rewardCode.findMany({
+      where: {
+        batchCodeId: batchCode,
+      },
+    });
+    allRewardCodes.map(
+      async (codeData) =>
+        await this.prisma.rewardCode.update({
+          where: {
+            id: codeData?.id,
+          },
+          data: {
+            productId,
+          },
+        }),
+    );
+
+    return { message: 'Code Applied Successfully' };
+  }
 }

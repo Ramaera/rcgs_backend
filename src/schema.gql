@@ -29,9 +29,18 @@ type RewardCode {
   batchCodeId: Int
 }
 
+type messageBoolean {
+  message: Boolean
+}
+
 type BatchEntity {
   """Example field (placeholder)"""
   batchCode: String!
+}
+
+type MessageEntity {
+  """Message"""
+  message: String!
 }
 
 type Token {
@@ -88,6 +97,7 @@ type Link {
 }
 
 type Query {
+  CheckBatchHasProduct(batchCode: Int!): messageBoolean!
   getAllcode: [RewardCode!]!
   getBatchDetails(take: Int! = 100, skip: Int! = 0): [BatchEntity!]!
   products: [Product!]!
@@ -108,6 +118,7 @@ type Mutation {
   login(data: LoginInput!): Auth!
   passwordresetRequest(data: PasswordRequestInput!): Auth!
   refreshToken(token: JWT!): Token!
+  applyProductOnBatch(batchCode: Int! = 100, ProductId: String! = "0"): MessageEntity!
   createProduct(data: CreateProductInput!): Product!
   updateUser(data: UpdateUserInput!): User!
 }

@@ -6,6 +6,8 @@ import {
   GetRewardCodeInput,
 } from './dto/create-reward-code.input';
 import { PrismaService } from 'nestjs-prisma';
+import { BatchEntity } from 'src/batch/entities/batch.entity';
+import { messageBoolean } from './entities/messageBoolean';
 const jwt = require('jsonwebtoken');
 @Resolver(() => RewardCode)
 export class RewardCodeResolver {
@@ -26,6 +28,14 @@ export class RewardCodeResolver {
         throw new Error('Credentials are not Valid or Unauthorized Access');
       }
     }
+  }
+
+  @Query(() => messageBoolean)
+  async CheckBatchHasProduct(
+    @Args({ name: 'batchCode', type: () => Int })
+    batchCode: number,
+  ) {
+    return await this.rewardCodeService.checkBatchHasProduct(batchCode);
   }
 
   @Query(() => [RewardCode])

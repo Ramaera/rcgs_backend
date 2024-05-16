@@ -6,6 +6,7 @@ import { PrismaService } from 'nestjs-prisma';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from 'src/auth/gql-auth.guard';
 import { RewardCode } from 'src/reward-code/entities/reward-code.entity';
+import { MessageEntity } from './entities/sucessMessage.entity';
 
 @Resolver(() => BatchEntity)
 export class BatchResolver {
@@ -19,5 +20,19 @@ export class BatchResolver {
     const data = await this.batchService.getBatchDetails({ take, skip });
 
     return data;
+  }
+
+  @Mutation(() => MessageEntity)
+  async applyProductOnBatch(
+    @Args({ name: 'batchCode', type: () => Int, defaultValue: 100 })
+    batchCode: number,
+    @Args({ name: 'ProductId', type: () => String, defaultValue: 0 })
+    ProductId: string,
+  ) {
+    const dataApplied = await this.batchService.applyBatchCodeonProduct(
+      batchCode,
+      ProductId,
+    );
+    return dataApplied;
   }
 }
